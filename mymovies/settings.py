@@ -26,8 +26,14 @@ SECRET_KEY = 'django-insecure-n!d8&93r6!%rk%24llr+716d@0%g6kucm_&j699d895nkx%2o7
 DEBUG = True
 
 # CORS settings (any)
-ALLOWED_HOSTS = ["*", "0.0.0.0/0"]
+ALLOWED_HOSTS = ["*"]
 
+# Compressor
+COMPRESS_ROOT = BASE_DIR / 'static'
+ 
+COMPRESS_ENABLED = True
+ 
+STATICFILES_FINDERS = ('compressor.finders.CompressorFinder',)
 
 # Application definition
 
@@ -39,7 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "movies.apps.MoviesConfig",
+    'compressor',
 ]
+
+TAILWIND_APP_NAME = 'templates'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -56,7 +65,7 @@ ROOT_URLCONF = 'mymovies.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,11 +83,16 @@ WSGI_APPLICATION = 'mymovies.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+import os
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+         "NAME": os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("PASSWORD"),
+        'HOST': os.getenv("HOST"),
+        'PORT': os.getenv("PORT"),
+        
     }
 }
 
