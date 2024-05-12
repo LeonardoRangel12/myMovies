@@ -3,10 +3,12 @@ from django.urls import resolve
 from movies.models import Movie
 # Create your views here.
 
+# Index
 def index(request):
     movies = Movie.objects.all()
     return render(request, "index.html", {"movies": movies})
 
+# To see movies
 def movie(request, movie_id):
     
     movie = Movie.objects.get(id=movie_id)
