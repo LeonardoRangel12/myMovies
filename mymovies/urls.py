@@ -18,9 +18,10 @@ from django.contrib import admin
 from django.urls import path
 
 # Routers
-from movies.views import index, movie
+from movies.views import index, movie, rewiews
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name="index"),
-    path('movie/<int:movie_id>', movie, name="movie")
+    path('movie/<int:movie_id>', movie, name="movie"),
+    path('movie/<int:movie_id>/reviews', rewiews, name="reviews"),
 ]

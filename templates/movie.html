@@ -9,4 +9,19 @@
       <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
   </div>
+
+  <!-- Reviews -->
+  <h2>Reviews</h2>
+  {% for r in reviews %}
+    <div>
+      <h2>{{r.rating}}/100</h2>
+      <p>{{r.review}}</p>
+    </div>
+  {% endfor %}
+  <form action="" method="POST">
+    <label for="rating">Rating</label>
+    <input type="number" name="rating" min="0" max="100" placeholder="" required>
+    <label for="review">Review</label>
+    <input type="text" name="review" placeholder="Write a review" required>
+    <button type="submit">Submit</button>
 {% endblock content %}
