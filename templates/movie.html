@@ -18,10 +18,21 @@
       <p>{{r.review}}</p>
     </div>
   {% endfor %}
-  <form action="" method="POST">
-    <label for="rating">Rating</label>
-    <input type="number" name="rating" min="0" max="100" placeholder="" required>
-    <label for="review">Review</label>
-    <input type="text" name="review" placeholder="Write a review" required>
-    <button type="submit">Submit</button>
+
+  {% if user.is_authenticated %}
+    <h2>Write a review</h2>
+    <form action="/movie/{{movie.id}}/reviews" method="POST">
+      {% csrf_token %}
+      <label for="rating">Rating</label>
+      <input type="number" name="rating" min="0" max="100" placeholder="" required>
+      <label for="review">Review</label>
+      <input type="text" name="review" placeholder="Write a review" required>
+  
+      <input type="hidden" name="movie_id" value="{{movie.id}}">
+      <button type="submit">Submit</button>
+      
+    </form>
+  {% else %}
+    <a href="{% url 'login' %}"<h2>Login to write a review</h2></a>
+  {% endif %}
 {% endblock content %}

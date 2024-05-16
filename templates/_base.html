@@ -20,8 +20,33 @@
 
 <body class="bg-green-50">
 	<div class="container mx-auto mt-4">
+
+		<!-- HEADER -->
+		<header class="flex justify-between items-center">
+			<a href="{% url 'index' %}"
+							class="text-green-800"><h1 class="text-3xl text-green-800">My Movies</h1></a>
+			<nav>
+				<ul class="flex space-x-4">
+					<li><a href="{% url 'index' %}"
+							class="text-green-800">Home</a></li>
+				</ul>
+
+				<ul>
+					{% if user.is_authenticated %}
+					<li><a href="si"
+							class="text-green-800">Logout</a></li>
+					{% else %}
+					<li><a href="{% url 'login' %}"
+							class="text-green-800">Login</a></li>
+					{% endif %}
+				</ul>
+			</nav>
+
+
 		{% block content %}
 		{% endblock content %}
+
+		<!-- FOOTER -->
 	</div>
 </body>
 

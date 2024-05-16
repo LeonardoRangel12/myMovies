@@ -1,0 +1,18 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+<div class="container mx-auto mt-4">
+    <h1 class="text-3xl text-green-800">Login</h1>
+    <form action="/login" method="POST">
+        {% csrf_token %}
+        <label for="username">Username</label>
+        <input type="text" name="username" required>
+        <label for="password">Password</label>
+        <input type="password" name="password" required>
+        <button type="submit">Login</button>
+    </form>
+
+</div>
+
+{% endblock content %}
