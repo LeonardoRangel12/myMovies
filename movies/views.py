@@ -6,19 +6,41 @@ from django.http import HttpResponse
 from .forms import ReviewsForm, LoginForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+import json
 # Create your views here.
+
+# COOKIES THEY ARE GOING TO BE JSONS I DONT CARE
+# "movies_history"
+
+def appendMovieToHistory(currentHistoryStr, movieId):
+    historyArr = json.loads(currentHistoryStr)
+    if movieId not in historyArr:
+        historyArr.append(movieId)
+    return json.dumps(historyArr)
 
 # Index
 def index(request):
     movies = Movie.objects.all()
-    return render(request, "index.html", {"movies": movies})
+    response = HttpResponse(render(request, "index.html", {"movies": movies, "movies_history": ["a"]}))
+    if not 'movies_history' in request.COOKIES:
+        response.set_cookie('movies_history', '[]')
+    else:
+        seen_movies_ids = json.loads(request.COOKIES['movies_history'])
+        response = HttpResponse(render(request, "index.html", {"movies": movies, "movies_history": seen_movies_ids}))
+        
+    return response
 
 # To see movies
 def movie(request, movie_id):
-    
+    currentHistoryStr = "[]"
+    if 'movies_history' in request.COOKIES:
+        currentHistoryStr =  request.COOKIES['movies_history']
     movie = Movie.objects.get(id=movie_id)
     reviews = MovieReview.objects.filter(movie=movie_id)
-    return render(request, "movie.html", {"movie": movie, "reviews": reviews})
+    response = render(request, "movie.html", {"movie": movie, "reviews": reviews})
+    new_history_value = appendMovieToHistory(currentHistoryStr,movie_id)
+    response.set_cookie("movies_history", new_history_value)
+    return response
 
 def rewiews(request, movie_id):
     # if request.method == "GET":

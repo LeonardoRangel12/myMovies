@@ -84,15 +84,19 @@ WSGI_APPLICATION = 'mymovies.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 import os
+print(os.getenv("DB_NAME"))
+print(os.getenv("DB_USER"))
+print(os.getenv("PASSWORD"))
+print(os.getenv("HOST"))
+print(os.getenv("PORT_CUSTOM"))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-         "NAME": os.getenv("DB_NAME"),
+        'NAME': os.getenv("DB_NAME"),
         'USER': os.getenv("DB_USER"),
         'PASSWORD': os.getenv("PASSWORD"),
         'HOST': os.getenv("HOST"),
-        'PORT': os.getenv("PORT"),
-        
+        'PORT_CUSTOM': os.getenv("PORT"),
     }
 }
 
