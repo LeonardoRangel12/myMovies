@@ -6,6 +6,10 @@ from datetime import datetime
 import requests
 import random
 import json
+import os
+
+Authorization = f"Bearer {os.getenv('MOVIEDBKEY')}"
+
 class Command(BaseCommand):
     # help = "Loads a movie, we assume the database is empty"
 
@@ -21,7 +25,7 @@ class Command(BaseCommand):
 
             headers = {
                 "accept": "application/json",
-                "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMTA3NDZkZjU1ODNhY2I2ZjAyOWM1ZTE1NDc0ODQ1NyIsInN1YiI6IjY2MzU2MjNhZDE4NTcyMDEyYjM0ZDYzOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Crx8kZvKRYxIbXRfBC87nwMESlY3w4ei8Gn7zALH5Oc"
+                "Authorization": Authorization
             }
 
             response = requests.get(url, headers=headers)
@@ -87,7 +91,7 @@ def get_credits(movie_id):
     
     headers = {
         "accept": "application/json",
-        "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIzMTA3NDZkZjU1ODNhY2I2ZjAyOWM1ZTE1NDc0ODQ1NyIsInN1YiI6IjY2MzU2MjNhZDE4NTcyMDEyYjM0ZDYzOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.Crx8kZvKRYxIbXRfBC87nwMESlY3w4ei8Gn7zALH5Oc"
+        "Authorization": Authorization
     }
 
     response = requests.get(url, headers=headers)
