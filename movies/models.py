@@ -5,35 +5,35 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Genre(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Job(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.name
 
 
 class Person(models.Model):
-    name = models.CharField(max_length=128)
+    name = models.CharField(max_length=255)
 
     def __str__(self):
         return self.name
 
 
 class Movie(models.Model):
-    title = models.CharField(max_length=200)
-    overview = models.TextField()
-    release_date = models.DateTimeField()
+    title = models.CharField(max_length=255)
+    overview = models.TextField(max_length=1000)
+    release_date = models.DateField()
     running_time = models.IntegerField()
     budget = models.IntegerField(blank=True)
     tmdb_id = models.IntegerField(blank=True, unique=True)
     revenue = models.IntegerField(blank=True)
-    poster_path = models.URLField(blank=True)
+    poster_path = models.URLField(max_length=5000,blank=True)
     genres = models.ManyToManyField(Genre)
     credits = models.ManyToManyField(Person, through="MovieCredit")
 

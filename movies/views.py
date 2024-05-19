@@ -10,6 +10,7 @@ import json
 # Create your views here.
 
 # COOKIES THEY ARE GOING TO BE JSONS I DONT CARE
+# kys
 # "movies_history"
 
 def appendMovieToHistory(currentHistoryStr, movieId):
