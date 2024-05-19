@@ -14,6 +14,7 @@
   <h2>Reviews</h2>
   {% for r in reviews %}
     <div>
+      <h3>{{r.user}}</h3>
       <h2>{{r.rating}}/100</h2>
       <p>{{r.review}}</p>
     </div>
