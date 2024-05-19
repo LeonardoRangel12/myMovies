@@ -1,11 +1,11 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import resolve
 from movies.models import Movie, MovieReview
 from django.http import HttpResponse
 from .forms import ReviewsForm, LoginForm
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 import json
 # Create your views here.
 
@@ -55,16 +55,12 @@ def rewiews(request, movie_id):
         
         form = ReviewsForm(request.POST)
             
-        if Movie.objects.filter(id=movie_id).exists() == False:
-            response = HttpResponse("Movie does not exist")
-            response.status_code = 404
-            
-            return response
+        movie = get_object_or_404(Movie, id=movie_id)
         
         if form.is_valid():
             review = MovieReview(
-                user=1,
-                movie=movie_id,
+                user=request.user,
+                movie=movie,
                 rating=form.cleaned_data["rating"],
                 review=form.cleaned_data["review"]
             )
@@ -90,8 +86,19 @@ def rewiews(request, movie_id):
         
         return response
     
-       
-
+    
+# Remove auth   
+def handle_logout(request):
+    if request.method == "GET":
+        logout(request)
+        return redirect("/")
+    
+    else:
+        response = HttpResponse("Method not allowed")
+        response.status_code = 405
+        
+        return response
+    
 
 def handle_login (request):
     if request.method == "GET":
