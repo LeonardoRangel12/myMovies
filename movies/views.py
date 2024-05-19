@@ -37,8 +37,12 @@ def movie(request, movie_id):
     if 'movies_history' in request.COOKIES:
         currentHistoryStr =  request.COOKIES['movies_history']
     movie = Movie.objects.get(id=movie_id)
+    genres = movie.genres.all()
+    
+    credits = movie.credits.all()
+    
     reviews = MovieReview.objects.filter(movie=movie_id)
-    response = render(request, "movie.html", {"movie": movie, "reviews": reviews})
+    response = render(request, "movie.html", {"movie": movie, "reviews": reviews, "genres": genres, "credits": credits})
     new_history_value = appendMovieToHistory(currentHistoryStr,movie_id)
     response.set_cookie("movies_history", new_history_value)
     return response
@@ -71,7 +75,7 @@ def rewiews(request, movie_id):
             response = HttpResponse("Review created")
             response.status_code = 201
             
-            return response
+            return redirect(f"/movie/{movie_id}")
         
         else:
             response = HttpResponse("Error with form")

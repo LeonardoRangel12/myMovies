@@ -33,12 +33,20 @@ class Command(BaseCommand):
             if response.status_code != 200:
                 continue
         
+            # Checks if release date is empty
+            
+            if response.json()["release_date"] == "":
+                continue
+            
             
             # Checks if poster path is null
             poster = response.json()["poster_path"]
             
             if poster is None:
                 poster = "https://res.cloudinary.com/teepublic/image/private/s--4ydOGeR1--/c_crop,x_10,y_10/c_fit,h_1109/c_crop,g_north_west,h_1260,w_1260,x_-76,y_-76/co_rgb:ffffff,e_colorize,u_Misc:One%20Pixel%20Gray/c_scale,g_north_west,h_1260,w_1260/fl_layer_apply,g_north_west,x_-76,y_-76/bo_157px_solid_white/e_overlay,fl_layer_apply,h_1260,l_Misc:Art%20Print%20Bumpmap,w_1260/e_shadow,x_6,y_6/c_limit,h_1254,w_1254/c_lpad,g_center,h_1260,w_1260/b_rgb:eeeeee/c_limit,f_auto,h_630,q_auto:good:420,w_630/v1689330389/production/designs/47836837_1.jpg"
+            else:
+                poster = f"https://image.tmdb.org/t/p/w600_and_h900_bestv2/{poster}"
+                
                             
             # Create a new movie object
             movie = Movie(
@@ -84,6 +92,9 @@ class Command(BaseCommand):
                 
             # Add the credits to the movie object
             movie.credits.set(persons)
+            
+        
+        # print(Movie.objects.all())
             
 def get_credits(movie_id):
     

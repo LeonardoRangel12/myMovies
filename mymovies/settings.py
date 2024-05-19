@@ -88,7 +88,6 @@ print(os.getenv("DB_NAME"))
 print(os.getenv("DB_USER"))
 print(os.getenv("PASSWORD"))
 print(os.getenv("HOST"))
-print(os.getenv("PORT_CUSTOM"))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
