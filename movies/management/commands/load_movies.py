@@ -33,6 +33,10 @@ class Command(BaseCommand):
             if response.status_code != 200:
                 continue
         
+            # Checks if the movie is for adults
+            if response.json()["adult"]:
+                continue
+            
             # Checks if release date is empty
             
             if response.json()["release_date"] == "":
