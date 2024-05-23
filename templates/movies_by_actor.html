@@ -1,0 +1,17 @@
+{% extends "_base.html" %}
+
+{% block content %}
+<div>
+    <h2>Películas con {{ actor_name }}</h2>
+    <ul>
+        {% for movie in movies %}
+            <a href=/movie/{{movie.id}}>
+                <li>{{movie.id}} - {{ movie.title }} ({{ movie.release_date }})</li>
+            </a>
+        {% endfor %}
+    </ul>
+    {% if not movies %}
+        <p>No se encontraron películas para {{ actor_name }}</p>
+    {% endif %}
+</div>
+{% endblock %}

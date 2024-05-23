@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import resolve
-from movies.models import Movie, MovieReview
-from django.http import HttpResponse
+from movies.models import Movie, MovieReview, MovieCredit, Person
+from django.http import HttpResponse, JsonResponse
 from .forms import ReviewsForm, LoginForm
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
@@ -13,6 +13,13 @@ import json
 # kys
 # "movies_history"
 
+def get_credit_name(request, credit_id):
+    try:
+        credit = MovieCredit.objects.get(id=credit_id)
+        return JsonResponse({"name": credit.name})
+    except Credit.DoesNotExist:
+        return JsonResponse({"error": "Credit not found"}, status=404)
+        
 def appendMovieToHistory(currentHistoryStr, movieId):
     historyArr = json.loads(currentHistoryStr)
     if movieId not in historyArr:
@@ -30,7 +37,22 @@ def index(request):
         response = HttpResponse(render(request, "index.html", {"movies": movies, "movies_history": seen_movies_ids}))
         
     return response
+    
 
+def MoviesByActor(request, actor_id=None):
+    actor_name = None
+    movies = []
+
+    if actor_id is not None:
+        # Suponiendo que tienes un modelo Actor para obtener el nombre basado en el ID
+        actor = get_object_or_404(Person, id=actor_id) 
+        actor_name = actor.name
+        movies = Movie.objects.filter(credits__id=actor_id)
+    elif 'selected_actor' in request.COOKIES:
+        actor_name = request.COOKIES['selected_actor']
+        movies = Movie.objects.filter(credits__name=actor_name)
+
+    return render(request, "movies_by_actor.html", {"movies": movies, "actor_name": actor_name})
 # To see movies
 def movie(request, movie_id):
     currentHistoryStr = "[]"

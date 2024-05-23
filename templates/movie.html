@@ -1,53 +1,64 @@
-{% extends "_base.html" %}
- 
-{% block content %}
-<div class="card" style="width: 18rem;">
-    <img src="{{movie.poster_path}}" class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">{{movie.title}}</h5>
-      <p class="card-text">{{movie.release_date}}</p>
-      <p class="card-text">{{movie.running_time}} minutes</p>
-      <p class="card-text">
-        {% for genre in genres %}
-          {{genre.name}}
-        {% endfor %}
-      </p>
-      <p class="card-text">{{movie.overview}}</p>
-
-      <p class="card-text">
-        {%for credit in credits %}
-          {{credit}},<br>
-        {% endfor %}
-      </p>
-
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
+{% extends "_base.html" %} {% block content %}
+<div class="card" style="width: 18rem">
+  <img src="{{ movie.poster_path }}" class="card-img-top" alt="..." />
+  <div class="card-body">
+    <h5 class="card-title">{{ movie.title }}</h5>
+    <p class="card-text">{{ movie.release_date }}</p>
+    <p class="card-text">{{ movie.running_time }} minutes</p>
+    <p class="card-text">
+      {% for genre in genres %} {{ genre.name }} {% endfor %}
+    </p>
+    <p class="card-text">{{ movie.overview }}</p>
+    <p class="card-text">
+      {% for credit in credits %} {{ credit.id }} -
+      <a
+        href="/movies_by_actor/{{credit.id}}"
+        class="credit-item"
+        data-credit-id="{{ credit.id }}"
+        >{{ credit.name }}</a
+      ><br />
+      {% endfor %}
+    </p>
   </div>
+</div>
 
-  <!-- Reviews -->
-  <h2>Reviews</h2>
-  {% for r in reviews %}
-    <div>
-      <h3>{{r.user}}</h3>
-      <h2>{{r.rating}}/100</h2>
-      <p>{{r.review}}</p>
-    </div>
-  {% endfor %}
+<!-- Display selected actor -->
+<div>
+  <h2>Nombre del actor seleccionado:</h2>
+  <p id="selected-actor">No actor seleccionado</p>
+</div>
 
-  {% if user.is_authenticated %}
-    <h2>Write a review</h2>
-    <form action="/movie/{{movie.id}}/reviews" method="POST">
-      {% csrf_token %}
-      <label for="rating">Rating</label>
-      <input type="number" name="rating" min="0" max="100" placeholder="" required>
-      <label for="review">Review</label>
-      <input type="text" name="review" placeholder="Write a review" required>
-  
-      <input type="hidden" name="movie_id" value="{{movie.id}}">
-      <button type="submit">Submit</button>
-      
-    </form>
-  {% else %}
-    <a href="{% url 'login' %}"<h2>Login to write a review</h2></a>
-  {% endif %}
-{% endblock content %}
+{% endblock %} {% block extra_scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const creditItems = document.querySelectorAll(".credit-item");
+    const selectedActorElement = document.getElementById("selected-actor");
+    const actorNameInput = document.getElementById("actor_name_input");
+    const form = document.getElementById("filter-by-actor-form");
+
+    creditItems.forEach((item) => {
+      item.addEventListener("click", function (event) {
+        event.preventDefault();
+        const creditId = this.getAttribute("data-credit-id");
+
+        fetch(`/get_credit_name/${creditId}/`)
+          .then((response) => response.json())
+          .then((data) => {
+            const selectedCreditName = data.name;
+            localStorage.setItem("selectedCreditName", selectedCreditName);
+            selectedActorElement.textContent = selectedCreditName;
+            actorNameInput.value = selectedCreditName;
+            form.style.display = "block";
+          });
+      });
+    });
+
+    const selectedCreditName = localStorage.getItem("selectedCreditName");
+    if (selectedCreditName) {
+      selectedActorElement.textContent = selectedCreditName;
+      actorNameInput.value = selectedCreditName;
+      form.style.display = "block";
+    }
+  });
+</script>
+{% endblock %}
