@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import resolve
-from movies.models import Movie, MovieReview, MovieCredit, Person
+from movies.models import Movie, MovieReview, MovieCredit, Person, Genre
 from django.http import HttpResponse, JsonResponse
 from .forms import ReviewsForm, LoginForm
 from django.contrib.auth.models import User
