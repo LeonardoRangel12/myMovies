@@ -26,6 +26,44 @@ def appendMovieToHistory(currentHistoryStr, movieId):
         historyArr.append(movieId)
     return json.dumps(historyArr)
 
+def movieAggregator(movie_id):
+    print(Movie.objects.get(id=movie_id))
+    return Movie.objects.get(id=movie_id)
+
+def getMovieGenres(movie_id):
+    return movieAggregator(movie_id).genres.all()
+
+def get_times_a_genre_was_viewed(movies_history):
+    genres_times_viewed = {}
+    for movieId in movies_history:
+        genres = getMovieGenres(movieId)
+        print(type(genres))
+        for genre in genres:
+            if genre not in genres_times_viewed:
+                genres_times_viewed[genre]=0
+            else:
+                genres_times_viewed[genre]= genres_times_viewed[genre] + 1
+            
+    return genres_times_viewed;
+
+def recommendMovies(movies_history):
+    movies_history = json.loads(movies_history)
+    genres_times_viewed_key = get_times_a_genre_was_viewed(movies_history)
+    top_three_genres = sorted(genres_times_viewed_key, key=genres_times_viewed_key.get, reverse=True)[:3]
+    recommended_movies= []
+    for genre_name in top_three_genres:
+        # Get the Genre object corresponding to the genre name
+        genre = Genre.objects.get(name=genre_name)
+        
+        # Query all movies associated with this genre
+        movies_in_genre = Movie.objects.filter(genres=genre)
+        
+        # Add these movies to the recommended_movies list
+        recommended_movies.extend(movies_in_genre)
+
+    print(recommended_movies)    
+    return recommended_movies
+
 # Index
 def index(request):
     movies = Movie.objects.all()
@@ -34,7 +72,7 @@ def index(request):
         response.set_cookie('movies_history', '[]')
     else:
         seen_movies_ids = json.loads(request.COOKIES['movies_history'])
-        response = HttpResponse(render(request, "index.html", {"movies": movies, "movies_history": seen_movies_ids}))
+        response = HttpResponse(render(request, "index.html", {"movies": movies, "movies_history": seen_movies_ids, "recommended_movies" : recommendMovies(request.COOKIES['movies_history'])}))
         
     return response
     
@@ -64,10 +102,12 @@ def movie(request, movie_id):
     credits = movie.credits.all()
     
     reviews = MovieReview.objects.filter(movie=movie_id)
+    
     response = render(request, "movie.html", {"movie": movie, "reviews": reviews, "genres": genres, "credits": credits})
     new_history_value = appendMovieToHistory(currentHistoryStr,movie_id)
     response.set_cookie("movies_history", new_history_value)
     return response
+
 
 def rewiews(request, movie_id):
     # if request.method == "GET":

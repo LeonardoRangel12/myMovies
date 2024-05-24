@@ -1,12 +1,6 @@
 {% extends "_base.html" %}
  
 {% block content %}
-    <h1 class="text-3xl text-green-800">
-        GeeksforGeeks
-    </h1>
-      <h3 class="text-3x1 text-green-800">
-          GeeksforGeeks
-    </h3>
     <hr />
     <h1>Movies Catalog:</h1>
     <hr />
@@ -16,9 +10,16 @@
         </a>
     {% endfor %}
     <hr />
-    <h1>Movies visited:</h1>
+        <h1>Movies visited:</h1>
     <hr />
     {% for m in movies_history %}
+        <h2>{{m}}</h1>
+    {% endfor %}
+    
+    <hr />
+        <h1>Recommended movies:</h1>
+    <hr />
+    {% for m in recommendMovies %}
         <h2>{{m}}</h1>
     {% endfor %}
 {% endblock content %}
