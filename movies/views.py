@@ -72,7 +72,11 @@ def index(request):
         response.set_cookie('movies_history', '[]')
     else:
         seen_movies_ids = json.loads(request.COOKIES['movies_history'])
-        response = HttpResponse(render(request, "index.html", {"movies": movies, "movies_history": seen_movies_ids, "recommended_movies" : recommendMovies(request.COOKIES['movies_history'])}))
+        response = HttpResponse(render(request, "index.html", {
+            "movies": movies, 
+            "movies_history": seen_movies_ids, 
+            "recommended_movies" : recommendMovies(request.COOKIES['movies_history'])
+            }))
         
     return response
     

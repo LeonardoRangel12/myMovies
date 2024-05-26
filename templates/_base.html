@@ -14,52 +14,43 @@
 </head>
 
 <body class="bg-green-50">
-	<div class="container mx-auto mt-4">
-
-		<!-- HEADER -->
-		<header class="flex justify-between items-center">
-			<a href="{% url 'index' %}" class="text-green-800">
-				<h1 class="text-3xl text-green-800">My Movies</h1>
-			</a>
-			<nav>
-				<ul class="flex space-x-4">
-					<li><a href="{% url 'index' %}" class="text-green-800">Home</a></li>
-				</ul>
-
-				<ul>
-					{% if user.is_authenticated %}
-					<li><a href="{% url 'logout' %}" class="text-green-800">Logout</a></li>
-					{% else %}
-					<li><a href="{% url 'login' %}" class="text-green-800">Login</a></li>
-					{% endif %}
-				</ul>
-			</nav>
-		</header>
-
+	<!-- HEADER -->
+	<nav class = 'flex justify-between w-full bg-green-800 p-4'>
+		<a href = "{% url 'index' %}"><h1 class = 'text-green-50'>My Movies</h1></a>
+		<ul class = 'flex flex-row space-x-8'>
+			<li>
+				<a href="{% url 'index' %}" class="text-green-50">Home</a>
+			</li>
+			{% if user.is_authenticated %}
+				<li>
+					<a href="{% url 'logout' %}" class="text-green-50">Logout</a>
+				</li>
+			{% else %}
+				<li>
+					<a href="{% url 'login' %}" class="text-green-50">Login</a>	
+				</li>
+			{% endif %}
+		</ul>
+	</nav>
+	<h1 class="text-xl text-blue-700">Movies Catalog</h1>
+	<!--Main Content-->
+	<div class="flex flex-wrap h-screen mx-auto mt-4">
+		
 		{% block content %}
 		{% endblock content %}
-
 		<!-- FOOTER -->
-
-		<div class="max-w-sm rounded overflow-hidden shadow-lg">
-			<img class="w-full" src="/img/card-top.jpg" alt="Sunset in the mountains">
-			<div class="px-6 py-4">
-				<div class="font-bold text-xl mb-2">The Coldest Sunset</div>
-				<p class="text-gray-700 text-base">
-					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et
-					perferendis eaque, exercitationem praesentium nihil.
-				</p>
-			</div>
-			<div class="px-6 pt-4 pb-2">
-				<span
-					class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-				<span
-					class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-				<span
-					class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-			</div>
-		</div>
 	</div>
 </body>
 
 </html>
+
+<!--					{% if user.is_authenticated %}
+						<li>
+							<a href="{% url 'logout' %}" class="text-green-800">Logout</a>
+						</li>
+					{% else %}
+						<li>
+							<a href="{% url 'login' %}" class="text-green-800">Login</a>
+						</li>
+					{% endif %}
+-->
