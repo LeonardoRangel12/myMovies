@@ -18,7 +18,7 @@ class Command(BaseCommand):
         Movie.objects.all().delete()
         
         
-        for i in range(1, 1000):
+        for i in range(1, 100):
             random_id = random.randint(1, 1000000)
             print(f"Loading movie {i}, TMDB ID: {random_id}")
             url = f"https://api.themoviedb.org/3/movie/{random_id}?language=en-US"

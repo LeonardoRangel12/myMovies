@@ -75,7 +75,7 @@ def index(request):
         response = HttpResponse(render(request, "index.html", {
             "movies": movies, 
             "movies_history": seen_movies_ids, 
-            "recommended_movies" : recommendMovies(request.COOKIES['movies_history'])
+            # "recommended_movies" : recommendMovies(request.COOKIES['movies_history'])
             }))
         
     return response
@@ -157,7 +157,16 @@ def rewiews(request, movie_id):
         
         return response
     
-    
+@login_required
+def my_user(request):
+    if request.method == "GET":
+        # Get reviews from the user
+        reviews = MovieReview.objects.filter(user=request.user)
+        return render(request, "my_user.html", {"reviews": reviews})
+
+    return render(request, "login.html")
+
+ 
 # Remove auth   
 def handle_logout(request):
     if request.method == "GET":

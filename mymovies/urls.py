@@ -18,15 +18,18 @@ from django.contrib import admin
 from django.urls import path
 
 # Routers
-from movies.views import index, movie, rewiews, handle_login, handle_logout, MoviesByActor, get_credit_name
+from movies.views import index, movie, rewiews, handle_login, handle_logout, MoviesByActor, get_credit_name, my_user
+
+# NO DIAGONAL AL FINAL (/ NO)
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin', admin.site.urls),
     path('', index, name="index"),
-    path('movie/<int:movie_id>/', movie, name="movie"),
-    path('movie/<int:movie_id>/reviews/', rewiews, name="reviews"),
-    path('login/', handle_login, name="login"),
-    path('movies_by_actor/<int:actor_id>/', MoviesByActor, name='movies_by_actor_with_id'),
-    path('logout/', handle_logout, name="logout"),
-    path('get_credit_name/<int:credit_id>/', get_credit_name, name='get_credit_name')
+    path('movie/<int:movie_id>', movie, name="movie"),
+    path('movie/<int:movie_id>/reviews', rewiews, name="reviews"),
+    path('login', handle_login, name="login"),
+    path('movies_by_actor/<int:actor_id>', MoviesByActor, name='movies_by_actor_with_id'),
+    path('logout', handle_logout, name="logout"),
+    path('get_credit_name/<int:credit_id>', get_credit_name, name='get_credit_name'),
+    path('my_user', my_user, name='my_user'),
 ]
 

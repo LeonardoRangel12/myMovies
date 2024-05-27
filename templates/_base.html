@@ -15,27 +15,32 @@
 
 <body class="bg-green-50">
 	<!-- HEADER -->
-	<nav class = 'flex justify-between w-full bg-green-800 p-4'>
-		<a href = "{% url 'index' %}"><h1 class = 'text-green-50'>My Movies</h1></a>
-		<ul class = 'flex flex-row space-x-8'>
+	<nav class='flex justify-between w-full bg-green-800 p-4'>
+		<a href="{% url 'index' %}">
+			<h1 class='text-green-50'>My Movies</h1>
+		</a>
+		<ul class='flex flex-row space-x-8'>
 			<li>
 				<a href="{% url 'index' %}" class="text-green-50">Home</a>
 			</li>
 			{% if user.is_authenticated %}
-				<li>
-					<a href="{% url 'logout' %}" class="text-green-50">Logout</a>
-				</li>
+			<li>
+				<a href="{% url 'my_user' %}" class="text-green-50">Mis reviews</a>
+			</li>
+			<li>
+				<a href="{% url 'logout' %}" class="text-green-50">Logout</a>
+			</li>
 			{% else %}
-				<li>
-					<a href="{% url 'login' %}" class="text-green-50">Login</a>	
-				</li>
+			<li>
+				<a href="{% url 'login' %}" class="text-green-50">Login</a>
+			</li>
 			{% endif %}
 		</ul>
 	</nav>
 	<h1 class="text-xl text-blue-700">Movies Catalog</h1>
 	<!--Main Content-->
 	<div class="flex flex-wrap h-screen mx-auto mt-4">
-		
+
 		{% block content %}
 		{% endblock content %}
 		<!-- FOOTER -->

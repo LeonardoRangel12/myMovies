@@ -11,16 +11,45 @@
     <p class="card-text">{{ movie.overview }}</p>
     <p class="card-text">
       {% for credit in credits %} {{ credit.id }} -
-      <a
-        href="/movies_by_actor/{{credit.id}}"
-        class="credit-item"
-        data-credit-id="{{ credit.id }}"
-        >{{ credit.name }}</a
-      ><br />
+      <a href="/movies_by_actor/{{credit.id}}" class="credit-item" data-credit-id="{{ credit.id }}">
+        {{ credit.name}}
+      </a><br />
       {% endfor %}
     </p>
   </div>
 </div>
+
+<!-- Reviews -->
+{% if reviews %}
+<h2>Reviews</h2>
+{% for r in reviews %}
+<div>
+  <h3>{{r.user}}</h3>
+  <h2>{{r.rating}}/100</h2>
+  <p>{{r.review}}</p>
+</div>
+{% endfor %}
+{% else %}
+<p>No hay reviews</p>
+{% endif %}
+
+
+{% if user.is_authenticated %}
+<h2>Write a review</h2>
+<form action="/movie/{{movie.id}}/reviews" method="POST">
+  {% csrf_token %}
+  <label for="rating">Rating</label>
+  <input type="number" name="rating" min="0" max="100" placeholder="" required>
+  <label for="review">Review</label>
+  <input type="text" name="review" placeholder="Write a review" required>
+
+  <input type="hidden" name="movie_id" value="{{movie.id}}">
+  <button type="submit">Submit</button>
+
+</form>
+{% else %}
+<a href="{% url 'login' %}" <h2>Login to write a review</h2></a>
+{% endif %}
 
 <!-- Display selected actor -->
 <div>

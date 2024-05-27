@@ -1,0 +1,23 @@
+{% extends "_base.html" %}
+
+{% block content %}
+
+{% if reviews %}
+<h1>Reseñas creadas por ti</h1>
+{% endif %}
+{% if not reviews %}
+<p>No has creado reseñas todavía</p>
+{% endif %}
+
+{% for review in reviews %}
+<div class="border border-gray-300 p-4 my-4">
+    <a href="/movie/{{review.movie.id}}"></s>
+        <h2 class="text-lg font-bold">{{ review.movie.title }}</h2>
+    </a>
+    <p>{{ review.rating }}/100</p>
+    <p class="text-sm text-gray-500">{{ review.review }}</p>
+</div>
+{% endfor %}
+
+
+{% endblock %}
