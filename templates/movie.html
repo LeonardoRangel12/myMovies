@@ -14,7 +14,7 @@
       <a href="/movies_by_actor/{{credit.id}}" class="credit-item" data-credit-id="{{ credit.id }}">
         {{ credit.name}}
       </a><br />
-      {% endfor %}
+      {% endfor %} 
     </p>
   </div>
 </div>
@@ -48,7 +48,7 @@
 
 </form>
 {% else %}
-<a href="{% url 'login' %}" <h2>Login to write a review</h2></a>
+<a href="{% url 'login' %}"><h2>Login to write a review</h2></a>
 {% endif %}
 
 <!-- Display selected actor -->

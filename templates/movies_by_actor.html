@@ -1,17 +1,17 @@
 {% extends "_base.html" %}
 
 {% block content %}
-<div>
-    <h2>Películas con {{ actor_name }}</h2>
+<div class="mx-auto max-w-lg">
+    <h2 class="text-2xl font-bold mb-4">Películas con {{ actor_name }}</h2>
     <ul>
         {% for movie in movies %}
-            <a href=/movie/{{movie.id}}>
-                <li>{{movie.id}} - {{ movie.title }} ({{ movie.release_date }})</li>
+            <a href="/movie/{{ movie.id }}" class="block mb-2 hover:text-blue-500">
+                <li class="border-b border-gray-300 py-2">{{ movie.id }} - {{ movie.title }} ({{ movie.release_date }})</li>
             </a>
         {% endfor %}
     </ul>
     {% if not movies %}
-        <p>No se encontraron películas para {{ actor_name }}</p>
+        <p class="mt-4">No se encontraron películas para {{ actor_name }}</p>
     {% endif %}
 </div>
 {% endblock %}
