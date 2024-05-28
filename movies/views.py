@@ -198,9 +198,8 @@ def handle_login (request):
                 return redirect("/")
                 
             else:
-                response = HttpResponse("User not found")
+                response = HttpResponse(render(request, "login.html", {"error": "Invalid credentials"}))
                 response.status_code = 404
-                
                 return response
         
         else:
