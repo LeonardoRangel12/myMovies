@@ -75,7 +75,7 @@ def index(request):
         response = HttpResponse(render(request, "index.html", {
             "movies": movies, 
             "movies_history": seen_movies_ids, 
-            # "recommended_movies" : recommendMovies(request.COOKIES['movies_history'])
+            "recommended_movies" : recommendMovies(request.COOKIES['movies_history'])
             }))
         
     return response

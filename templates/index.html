@@ -1,38 +1,53 @@
 {% extends "_base.html" %}
 {% block content %}
-        {% for m in movies|slice:"72" %}
-                <div class="flex flex-row mx-auto my-2 space-x-4 w-48 max-w-48 border-2 border-blue-900">
-                    <div class="flex flex-col items-center w-full h-full">
-                        <div class="border-2 h-20 w-full border-blue-200">
-                            <h2 class="text-wrap overflow-hidden">{{ m.title }}</h2>
+    <h1 class="text-xl ml-3 text-blue-700 text-center lg:text-left">Movies Catalog</h1>
+    <div class="flex flex-wrap mx-auto">
+        {% for m in movies|slice:"36" %}
+        <a href='/movie/{{m.id}}' class="flip-card flex mx-auto my-2 space-x-4 mb-10 w-48 max-w-48 h-[28rem]">
+            <div class="flip-card flex mx-auto my-2 space-x-4 mb-10 w-48 max-w-48 h-[28rem]">
+                <div class="flip-card-inner w-full h-full">
+                    <div class="flip-card-front flex flex-col space-y-2 items-center w-full h-full">
+                        <div class="flex justify-center items-center h-20 w-full">
+                            <h2 class="text-wrap text-center overflow-hidden">{{ m.title }}</h2>
                         </div>
-                        <div class="border-2 w-full border-blue-200">
-                            <a href='/movie/{{m.id}}'><img class="h-[20rem]" src="{{ m.poster_path }}" alt="{{ m.title }} poster" /></a>
-                        </div>
-                        <div class="border-2 w-full border-blue-200">
-                            {% if m.overview %}
-                                <p class="h-20 whitespace-normal overflow-y-auto">{{ m.overview }}</p>
-                            {% else %}
-                                <p class="h-20 text-center">No Description</p>
-                            {% endif %}
-                        </div>
-                        <div class="border-2 border-blue-200">
-                            <p>Rating: {{ m.revenue }}</p>
+                        <div class="w-full h-full">
+                           <img class="h-full" src="{{ m.poster_path }}" alt="{{ m.title }} poster" />
                         </div>
                     </div>
+                    <div class="flip-card-back flex justify-center items-center w-full h-full">
+                        {% if m.overview %}
+                            <p class="max-h-full text-ellipsis overflow-y-auto">{{ m.overview }}</p>
+                        {% else %}
+                            <p>No Description</p>
+                        {% endif %}
+                    </div>
                 </div>
+            </div>
+        </a>
         {% endfor %}
-        <hr />
-        <h1>Movies visited:</h1>
-        <hr />
-        {% for m in movies_history %}
-            <h2>{{m}}</h1>
+    </div>
+    <h1 class="text-xl ml-3 text-blue-700 text-center mt-28 lg:text-left">Recommended movies</h1>
+    <div class="flex flex-wrap mx-auto my-2">
+        {% for m in recommended_movies|slice:"36" %}
+            <div class="flip-card flex mx-auto my-2 space-x-4 w-48 mb-10 max-w-48 h-[28rem]">
+                <div class="flip-card-inner w-full h-full">
+                    <div class="flip-card-front flex flex-col space-y-2 items-center w-full h-full">
+                        <div class="flex justify-center items-center h-20 w-full">
+                            <h2 class="text-wrap text-center overflow-hidden">{{ m.title }}</h2>
+                        </div>
+                        <div class="w-full h-full">
+                            <a href='/movie/{{m.id}}'><img class="h-full" src="{{ m.poster_path }}" alt="{{ m.title }} poster" /></a>
+                        </div>
+                    </div>
+                    <div class="flip-card-back flex justify-center items-center w-full h-full">
+                        {% if m.overview %}
+                            <p class="max-h-full text-ellipsis overflow-y-auto">{{ m.overview }}</p>
+                        {% else %}
+                            <p>No Description</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         {% endfor %}
-        
-        <hr />
-            <h1>Recommended movies:</h1>
-        <hr />
-        {% for m in recommended_movies %}
-            <h2>{{m}}</h1>
-        {% endfor %}
+    </div>
 {% endblock content %}
